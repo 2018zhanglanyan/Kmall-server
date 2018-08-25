@@ -27,15 +27,6 @@ router.get("/init",(req,res)=>{
 	})
 });
 */
-
-
-
-
-
-
-
-
-
 //用户登录
 router.post("/login",(req,res)=>{
 	let body = req.body;
@@ -62,6 +53,18 @@ router.post("/login",(req,res)=>{
 			result.message = '用户名和密码错误'
 			res.json(result);
 		}
+	})
+})
+
+router.get('/count',(req,res)=>{
+	res.json({
+		code:0,
+		data:{
+			usernum:111,
+			ordernum:222,
+			productnum:333
+		}
+
 	})
 })
 

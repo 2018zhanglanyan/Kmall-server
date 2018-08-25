@@ -30,6 +30,13 @@ app.use((req,res,next)=>{
     next();
 })
 
+app.use((req,res,next)=>{
+    if(req.method == 'OPTIONS'){
+        res.send('OPTIONS  OK');
+    }else{
+        next();
+    }
+})
 //设置cookie的中间件,后面所有的中间件都会有cookie
 app.use(session({
     //设置cookie名称
