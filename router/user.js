@@ -27,6 +27,16 @@ router.get("/init",(req,res)=>{
 
 })
 
+
+router.get('/logout',(req,res)=>{
+	let result = {
+		code:0,
+		massage:''
+	}
+	req.session.destroy();
+	res.json(result);
+})
+
 module.exports = router;
 
 

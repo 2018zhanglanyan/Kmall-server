@@ -1,4 +1,3 @@
-
 const Router = require('express').Router;
 const CategoryModel = require('../models/categoryModel.js');
 const pagination = require('../util/pagination.js');
@@ -24,7 +23,7 @@ router.post("/",(req,res)=>{
 	.then((cate)=>{
 		if(cate){
 	 		res.json({
-	 			code:11,
+	 			code:1,
 	 			message:"添加分类失败,分类已存在"
 	 		})
 		}else{
@@ -34,10 +33,22 @@ router.post("/",(req,res)=>{
 			})
 			.save()
 			.then((newCate)=>{
-				if(newCate){
-					res.json({
-						code:0,
-					})
+				if(newCate){	
+					if (body.pid == 0) {
+
+						CategoryModel.find({pid:0},"_id name pid order")
+						.then((categories)=>{
+							res.json({
+								code:0,
+								data:categories
+							})
+						})
+
+					}else{
+						res.json({
+							code:0,
+						})
+					}
 				}
 			})
 			.catch((e)=>{
@@ -51,11 +62,41 @@ router.post("/",(req,res)=>{
 })
 
 
+//获取分类
+router.get("/",(req,res)=>{
 
-
-
-
-
-
+	let pid = req.query.pid;
+	let page = req.query.page;
+	if(page){
+		CategoryModel
+		.getPaginationCategories(page,{pid:pid},'id name order pid')
+		.then((data)=>{
+			res.json({
+				code:0,
+				data:{
+					current:data.current,
+					total:data.total,
+					pageSize:data.pageSize,
+					list:data.list
+				}
+			});	
+		})
+	}else{
+		CategoryModel.find({pid:pid})
+		.then((categories)=>{
+			res.json({
+				code:0,
+				data:categories
+			})
+		})
+		.catch((e)=>{
+			res.json({
+				code:11,
+				message:'服务器离家出走了'
+			})
+		})
+	}
+	
+})
 
 module.exports = router;
