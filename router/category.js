@@ -1,3 +1,4 @@
+
 const Router = require('express').Router;
 const CategoryModel = require('../models/categoryModel.js');
 const pagination = require('../util/pagination.js');
@@ -33,9 +34,8 @@ router.post("/",(req,res)=>{
 			})
 			.save()
 			.then((newCate)=>{
-				if(newCate){	
-					if (body.pid == 0) {
-
+				if(newCate){
+					if(body.pid == 0){
 						CategoryModel.find({pid:0},"_id name pid order")
 						.then((categories)=>{
 							res.json({
@@ -43,10 +43,9 @@ router.post("/",(req,res)=>{
 								data:categories
 							})
 						})
-
 					}else{
 						res.json({
-							code:0,
+							code:0
 						})
 					}
 				}
@@ -60,8 +59,6 @@ router.post("/",(req,res)=>{
 		}
 	})
 })
-
-
 //获取分类
 router.get("/",(req,res)=>{
 
@@ -91,12 +88,21 @@ router.get("/",(req,res)=>{
 		})
 		.catch((e)=>{
 			res.json({
-				code:11,
+				code:1,
 				message:'服务器离家出走了'
 			})
 		})
 	}
 	
 })
+
+
+
+
+
+
+
+
+
 
 module.exports = router;

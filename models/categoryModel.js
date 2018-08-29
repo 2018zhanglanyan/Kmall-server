@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-
+const pagination = require('../util/pagination.js');
 const CategorySchema = new mongoose.Schema({
   		name:{
   			type:String,
@@ -28,6 +28,5 @@ CategorySchema.statics.getPaginationCategories = function(page,query={}){
       })
     })
  }
-
 let categoryModel = mongoose.model('Category',CategorySchema);
 module.exports=categoryModel;
